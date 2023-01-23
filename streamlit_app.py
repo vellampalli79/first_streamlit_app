@@ -1,3 +1,3 @@
-import steamlit
+import streamlit
 
 streamlit.title('My First code ')
