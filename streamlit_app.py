@@ -17,7 +17,7 @@ my_fruit_list = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.co
 my_fruit_list=my_fruit_list.set_index('Fruit')
 
 #Pick fruits from a list
-st.multiselect("Pick Some Fruits:",list(my_fruit_list.index))
+st.multiselect("Pick Some Fruits:",list(my_fruit_list.index),['Strawberries','Peach'])
 
 #display the table on page
 st.dataframe(my_fruit_list)
