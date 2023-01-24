@@ -1,90 +1,25 @@
-import time
-import glob 
-import itertools
-from datetime import date, timedelta
-import dateutil.parser
-import csv 
-import os 
-import json 
-import io 
-import requests
-import traceback
-import shutil
-import boto3
-from pytz import timezone
-from avro.datafile import DataFileWriter, DataFileReader
-from avro.io import DatumWriter, DatumReader,BinaryDecoder
-import avro
-# import tableauserverclient as TSC 
-# from tableauhyperapi import HyperProcess, Telemetry, Connection#, CreateMode, NOT_NULLABLE, NULLABLE, SqlType,TableDefinition, Inserter, escape_name, escape_string_literal, HyperException, print_exception, TableName
-import zipfile
-import teradatasql
-import pyodbc
-from requests_ntlm import HttpNtlmAuth
-try:
-    import cx_Oracle
-except:
-    pass 
-try: 
-    from jira import JIRA
-except: 
-    pass
-import pandas as pd
-import numpy as np 
-import ssl
+import streamlit  as st
+import pandas
+import os
 
-#from cassandra.cluster import Cluster
-#from cassandra.auth import PlainTextAuthProvider
-#from cassandra.query import BatchStatement
-# import tableauserverclient as TSC 
-# from tableauhyperapi import HyperProcess, Telemetry, Connection,TableName,escape_string_literal#, CreateMode, NOT_NULLABLE, NULLABLE, SqlType,TableDefinition, Inserter, escape_name, escape_string_literal, HyperException, print_exception, TableName
+st.title(' 🥗 🐔 🥑🍞 My parent\'s healthy new dinner!')
 
-exec(open("C:\\ds\\cari-uswm-s3\\alteryx-tools\\supporting_functions.py",'r+').read())
+st.header('Breakfast Favorites')
 
-# teradatasql.connect(host='idwprd.card.jpmchase.net',user="E824291",password=SupportingFunctions().decode_binary(b'MVBlYXMmQ2Fycm90cw=='),logmech='LDAP')
+st.text('🍞 Omega 3 & Blueberry Oatmeal')
+st.text('🥗  Kale, Spinach & Rocket Smoothie')
+st.text('🐔 Hard Boilded Free-Range Eggs')
 
-# try:
-#     exec(open("C:\\ds\\cari-uswm-s3\\alteryx-tools\\supporting_functions.py",'r+').read())
-# except:
-#     exec(requests.get("https://uswm-code-repository.apps.dev.na-1z.gap.jpmchase.net/read/supporting_functions.py",verify=False).text)
 
-def duration_print(duration):
-    if duration > 60:
-        print ("Duration: " + "{0:,.2f}".format(duration/60) + " minutes")
-    elif duration > 3:
-        print ("Duration: " + "{0:,.2f}".format(duration) + " seconds")
+st.header('🍌🍞 Build Your Own Fruit Smoothie 🥝🍇')
 
-def duration_print_start(start_time):
-    end_time = time.time()
-    duration = (end_time - start_time)
-    duration_print(duration)
+my_fruit_list = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
+my_fruit_list=my_fruit_list.set_index('Fruit')
 
-python_files_to_process = [i for i in glob.glob(os.path.join(os.getcwd(),'*.py')) if 'pyapp.py' not in i]
-for python_latest_local_file_script in python_files_to_process:
-    start_time = time.time()
-    print ("Running: " + python_latest_local_file_script)
-    try:
-        exec(open(python_latest_local_file_script,'r+').read())
-    except:
-        traceback.print_exc()
-    duration_print_start(start_time)
+#Pick fruits from a list
+st.multiselect("Pick Some Fruits:",list(my_fruit_list.index))
 
-while True:
-    try:
-        ran_input_text =  input( ">>>")
-        if ran_input_text == "":
-            python_files_to_process = [i for i in glob.glob(os.path.join(os.getcwd(),'*.py')) if 'pyapp.py' not in i]
-            for python_latest_local_file_script in python_files_to_process:
-                start_time = time.time()
-                #print ("Running: " + python_latest_local_file_script)
-                try:
-                    exec(open(python_latest_local_file_script,'r+').read())
-                except:
-                    traceback.print_exc()
-                duration_print_start(start_time)
-            # ran_input_text =  input( ">>>")
-        else:
-            code = ran_input_text
-            exec(code)
-    except:
-        traceback.print_exc()
+#display the table on page
+st.dataframe(my_fruit_list)
+
+
