@@ -22,7 +22,9 @@ st.dataframe(my_fruit_list)
 fruits_selected = st.multiselect("Pick Some Fruits:",list(my_fruit_list.index),['Strawberries','Peach'])
 
 fruits_to_show = my_fruit_list.loc[fruits_selected]
-
+#If you want to know more about pandas.dataframe.loc[ ],
+#you find more information here: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.loc.html 
+    
 #display the table on page
 st.dataframe(fruits_to_show)
 
